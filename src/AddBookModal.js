@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-
-// import BookForm from "./forms/BookForm";
+import { withRouter } from "react-router-dom";
 import Modal from "react-responsive-modal";
+import BookForm from "./BookForm";
 
 class AddBookModal extends Component {
   state = {
@@ -14,16 +14,29 @@ class AddBookModal extends Component {
 
   render() {
     const { open } = this.state;
-    return (
-      <div>
-        <Modal open={open} onClose={this.onCloseModal} center>
-          {/* You'll need to build a BookForm component before uncommenting the following line */}
-          {/* <BookForm author={this.props.author} /> */}
-          <h1>YOU NEED TO ACTUALLY MAKE A BOOK FORM!!!!!!</h1>
-        </Modal>
-        <input type="button" onClick={this.onOpenModal} value="Add New Book!" />
-      </div>
-    );
+
+    const authorID = this.props.match.params.authorID;
+    console.log("addbookmodal: " + authorID);
+
+    if (!authorID) {
+      return <> </>;
+    } else {
+      return (
+        <div>
+          <Modal open={open} onClose={this.onCloseModal} center>
+            <BookForm
+              author={this.props.author}
+              onCloseModal={this.onCloseModal}
+            />
+          </Modal>
+          <input
+            type="button"
+            onClick={this.onOpenModal}
+            value="Add New Book!"
+          />
+        </div>
+      );
+    }
   }
 }
-export default AddBookModal;
+export default withRouter(AddBookModal);

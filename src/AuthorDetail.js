@@ -6,6 +6,7 @@ import BookTable from "./BookTable";
 // Stores
 import authorStore from "./stores/authorStore";
 import bookStore from "./stores/bookStore";
+import { observer } from "mobx-react";
 
 const AuthorDetail = props => {
   const authorID = props.match.params.authorID;
@@ -13,6 +14,8 @@ const AuthorDetail = props => {
   const authorName = `${author.first_name} ${author.last_name}`;
 
   const books = author.books.map(bookID => bookStore.getBookById(bookID));
+
+  console.log(`${authorName} books: ${books}`);
 
   return (
     <div>
@@ -24,9 +27,9 @@ const AuthorDetail = props => {
           alt={authorName}
         />
       </div>
-      <BookTable books={books} />
+      <BookTable books={books} author={author} />
     </div>
   );
 };
 
-export default AuthorDetail;
+export default observer(AuthorDetail);
