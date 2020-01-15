@@ -68,12 +68,11 @@ export default class BookForm extends React.Component {
           <div className="input-group-prepend">
             <span className="input-group-text">Book Color</span>
           </div>
-          <input
-            type="text"
-            className="form-control"
-            name="color"
-            onChange={this.textChangeHandler}
-          />
+          <select name="color" onChange={this.textChangeHandler}>
+            {bookStore.getColors.map(color => (
+              <option key={color}>{color}</option>
+            ))}
+          </select>
         </div>
         <input type="submit" />
       </form>

@@ -7,7 +7,7 @@ const instance = axios.create({
 });
 
 instance.defaults.headers.common.Authorization =
-  "jwt eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODksInVzZXJuYW1lIjoidGVzdGluZ2c1IiwiZXhwIjoxNTc5MTA2NjY0LCJlbWFpbCI6InRlc3QxQGluZ2cuY29tIn0.ZH_zmjXn5QRQSJff-5gtrxTkShump6FHvwzU_d_tQGk";
+  "jwt eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODksInVzZXJuYW1lIjoidGVzdGluZ2c1IiwiZXhwIjoxNTc5MTA4NDU0LCJlbWFpbCI6InRlc3QxQGluZ2cuY29tIn0.W_SlwFLAPshRc7XOtNaBR6YFLdZ6XVvg6qcg5o1AVMQ";
 
 function errToArray(err) {
   return Object.keys(err).map(key => `${key}: ${err[key]}`);
@@ -40,6 +40,16 @@ class BookStore {
   getBooksByColor = color =>
     this.filteredBooks.filter(book => book.color === color);
 
+  get getColors() {
+    let colors = [];
+    this.books.forEach(book => {
+      if (!colors.includes(book.color)) {
+        colors.push(book.color);
+      }
+    });
+    return colors;
+  }
+
   addBook = async newBook => {
     try {
       const res = await instance.post("books/", newBook);
@@ -64,7 +74,8 @@ decorate(BookStore, {
   books: observable,
   query: observable,
   loading: observable,
-  filteredBooks: computed
+  filteredBooks: computed,
+  getColors: computed
 });
 
 const bookStore = new BookStore();
